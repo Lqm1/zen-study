@@ -5,6 +5,11 @@ from typing import List
 from pydantic import BaseModel
 
 
+class CsrfToken(BaseModel):
+    token: str
+    expire_time: int
+
+
 class User(BaseModel):
     zane_user_id: int
     name: str

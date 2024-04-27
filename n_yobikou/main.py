@@ -2,6 +2,7 @@ import httpx
 from bs4 import BeautifulSoup, Tag
 
 from models import (
+    CsrfToken,
     User,
     Notice,
 )
@@ -119,6 +120,21 @@ class NYobikou:
         user = User.model_validate(response.json())
         return user
 
+    def create_csrf_token(self):
+        """CSRFトークンを生成する
+        
+        Raises:
+            NotLoggedInError: ログインしていません
+            
+        Returns:
+            CsrfToken: CSRFトークン
+        """
+        if not self._zane_session:
+            raise NotLoggedInError('not logged in')
+        response = self.client.post('https://api.nnn.ed.nico/v1/tokens/csrf')
+        csrf_token = CsrfToken.model_validate(response.json())
+        return csrf_token
+
     def get_user(self):
         """自分自身のユーザー情報を取得する
 
@@ -135,13 +151,16 @@ class NYobikou:
         return user
 
     def get_notices(self, unread: bool = True):
-        """未読のお知らせを取得する
+        """通知を取得する
+
+        Args:
+            unread (bool): 未読の通知のみ取得するかどうか
 
         Raises:
             NotLoggedInError: ログインしていません
 
         Returns:
-            list[Notice]: 未読のお知らせ
+            List[Notice]: 通知のリスト
         """
         if not self._zane_session:
             raise NotLoggedInError('not logged in')
@@ -159,5 +178,7 @@ if __name__ == '__main__':
     import os
     n_yobikou = NYobikou(os.getenv('ZANE_SESSION'))
     # user = n_yobikou.login_by_s_high_school(input('学籍番号: '), input('パスワード: '))
-    notices = n_yobikou.get_notices()
-    print(notices)
+    # csrf_token = n_yobikou.create_csrf_token()
+    # user = n_yobikou.get_user()
+    # notices = n_yobikou.get_notices()
+    # notices = n_yobikou.get_notices(False)
