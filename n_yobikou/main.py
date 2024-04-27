@@ -55,6 +55,7 @@ class NYobikou:
             User: 自分自身のユーザー情報
         """
         response = self.client.get('https://www.nnn.ed.nico/oauth_login?next_url=https://www.nnn.ed.nico/home&target_type=n_high_school_mypage')
+        response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         request_id_found = soup.find('input', {'name': 'requestId'})
         if not request_id_found or not isinstance(request_id_found, Tag):
@@ -71,12 +72,14 @@ class NYobikou:
             '_token': _token,
         }
         response = self.client.post('https://secure.nnn.ed.jp/mypage/oauth/login', data=data)
+        response.raise_for_status()
         if response.url != 'https://www.nnn.ed.nico/home':
             raise LoginError('login failed')
         self._zane_session = self.client.cookies.get('_zane_session')
         if not self._zane_session:
             raise InternalError('_zane_session not found')
         response = self.client.get('https://api.nnn.ed.nico/v1/users')
+        response.raise_for_status()
         user = User.model_validate(response.json())
         return user
 
@@ -95,6 +98,7 @@ class NYobikou:
             User: 自分自身のユーザー情報
         """
         response = self.client.get('https://www.nnn.ed.nico/oauth_login?next_url=https://www.nnn.ed.nico/home&target_type=s_high_school_mypage')
+        response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         request_id_found = soup.find('input', {'name': 'requestId'})
         if not request_id_found or not isinstance(request_id_found, Tag):
@@ -111,12 +115,14 @@ class NYobikou:
             '_token': _token,
         }
         response = self.client.post('https://s-secure.nnn.ed.jp/mypage/oauth/login', data=data)
+        response.raise_for_status()
         if response.url != 'https://www.nnn.ed.nico/home':
             raise LoginError('login failed')
         self._zane_session = self.client.cookies.get('_zane_session')
         if not self._zane_session:
             raise InternalError('_zane_session not found')
         response = self.client.get('https://api.nnn.ed.nico/v1/users')
+        response.raise_for_status()
         user = User.model_validate(response.json())
         return user
 
@@ -132,6 +138,7 @@ class NYobikou:
         if not self._zane_session:
             raise NotLoggedInError('not logged in')
         response = self.client.post('https://api.nnn.ed.nico/v1/tokens/csrf')
+        response.raise_for_status()
         csrf_token = CsrfToken.model_validate(response.json())
         return csrf_token
 
@@ -147,6 +154,7 @@ class NYobikou:
         if not self._zane_session:
             raise NotLoggedInError('not logged in')
         response = self.client.get('https://api.nnn.ed.nico/v1/users')
+        response.raise_for_status()
         user = User.model_validate(response.json())
         return user
 
@@ -168,9 +176,23 @@ class NYobikou:
             response = self.client.get('https://api.nnn.ed.nico/v1/notices/unreads')
         else:
             response = self.client.get('https://api.nnn.ed.nico/v1/notices')
+        response.raise_for_status()
         notices = [Notice.model_validate(notice) for notice in response.json()['notices']]
         return notices
 
+    def mark_as_read_notice(self, notice_id: int):
+        """通知を既読にする
+
+        Args:
+            notice_id (int): 通知ID
+
+        Raises:
+            NotLoggedInError: ログインしていません
+        """
+        if not self._zane_session:
+            raise NotLoggedInError('not logged in')
+        response = self.client.put(f'https://api.nnn.ed.nico/v1/notices/{notice_id}/mark')
+        response.raise_for_status()
 
 if __name__ == '__main__':
     from dotenv import load_dotenv
@@ -182,3 +204,4 @@ if __name__ == '__main__':
     # user = n_yobikou.get_user()
     # notices = n_yobikou.get_notices()
     # notices = n_yobikou.get_notices(False)
+    # marked_as_read_notice = n_yobikou.mark_as_read_notice(1)
