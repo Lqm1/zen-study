@@ -146,7 +146,6 @@ class NYobikou:
         if not self._zane_session:
             raise NotLoggedInError('not logged in')
         response = self.client.get('https://api.nnn.ed.nico/v1/notices/unreads')
-        print(response.json())
         notices = [Notice.model_validate(notice) for notice in response.json()['notices']]
         return notices
 
