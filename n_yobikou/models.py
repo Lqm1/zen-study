@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Dict, List, Optional, Any
 
 from pydantic import BaseModel
 
@@ -75,3 +75,36 @@ class MaterialCourse(BaseModel):
     outline: str
     subject_category: SubjectCategory
     chapters: List[Chapter]
+
+
+class Progress2(BaseModel):
+    total_count: int
+    passed_count: int
+    status: str
+
+
+class Section(BaseModel):
+    resource_type: str
+    id: int
+    title: str
+    passed: bool
+    textbook_info: Optional[str] = None
+    length: Optional[int] = None
+    content_url: str
+    material_type: str
+    thumbnail_url: Optional[str]
+    permissions: Dict[str, Any]
+    playback_position: Optional[int] = None
+    total_question: Optional[int] = None
+    done: Optional[bool] = None
+
+
+class MaterialChapter(BaseModel):
+    id: int
+    title: str
+    outline: str
+    thumbnail_url: Optional[str] = None
+    open_section_index: int
+    progress: Progress2
+    sections: List[Section]
+    course_type: str

@@ -6,6 +6,7 @@ from models import (
     User,
     Notice,
     MaterialCourse,
+    MaterialChapter,
 )
 
 class NotLoggedInError(Exception):
@@ -219,6 +220,30 @@ class NYobikou:
         courses = [MaterialCourse.model_validate(course) for course in response.json()['courses']]
         return courses
 
+    def get_material_chapters(self, queries: dict[int, int]):
+        """教材の章を取得する
+
+        Args:
+            queries (dict[int, int]): クエリ、キーはコースID、値は章ID
+
+        Raises:
+            NotLoggedInError: ログインしていません
+
+        Returns:
+            List[Chapter]: 章のリスト
+        """
+        if not self._zane_session:
+            raise NotLoggedInError('not logged in')
+        params = []
+        for course_id, chapter_id in queries.items():
+            params.append(('queries[][course_id]', course_id))
+            params.append(('queries[][chapter_id]', chapter_id))
+        response = self.client.get('https://api.nnn.ed.nico/v2/material/chapters', params=params)
+        response.raise_for_status()
+        chapters = [MaterialChapter.model_validate(chapter) for chapter in response.json()['chapters']]
+        return chapters
+
+
 if __name__ == '__main__':
     from dotenv import load_dotenv
     load_dotenv()
@@ -230,5 +255,6 @@ if __name__ == '__main__':
     # notices = n_yobikou.get_notices()
     # notices = n_yobikou.get_notices(unread=False)
     # marked_as_read_notice = n_yobikou.mark_as_read_notice(notice_id=1)
-    material_courses = n_yobikou.get_material_courses(ids=[1])
-    print(material_courses)
+    # material_courses = n_yobikou.get_material_courses(ids=[1])
+    material_chapters = n_yobikou.get_material_chapters(queries={1895: 24073})
+    print(material_chapters)
