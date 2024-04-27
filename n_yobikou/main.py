@@ -134,7 +134,7 @@ class NYobikou:
         user = User.model_validate(response.json())
         return user
 
-    def get_unread_notices(self):
+    def get_notices(self, unread: bool = True):
         """未読のお知らせを取得する
 
         Raises:
@@ -145,9 +145,13 @@ class NYobikou:
         """
         if not self._zane_session:
             raise NotLoggedInError('not logged in')
-        response = self.client.get('https://api.nnn.ed.nico/v1/notices/unreads')
+        if unread:
+            response = self.client.get('https://api.nnn.ed.nico/v1/notices/unreads')
+        else:
+            response = self.client.get('https://api.nnn.ed.nico/v1/notices')
         notices = [Notice.model_validate(notice) for notice in response.json()['notices']]
         return notices
+
 
 if __name__ == '__main__':
     from dotenv import load_dotenv
@@ -155,5 +159,5 @@ if __name__ == '__main__':
     import os
     n_yobikou = NYobikou(os.getenv('ZANE_SESSION'))
     # user = n_yobikou.login_by_s_high_school(input('学籍番号: '), input('パスワード: '))
-    notices = n_yobikou.get_unread_notices()
+    notices = n_yobikou.get_notices()
     print(notices)
