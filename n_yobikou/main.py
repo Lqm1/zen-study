@@ -5,6 +5,7 @@ from models import (
     CsrfToken,
     User,
     Notice,
+    MaterialCourse,
 )
 
 class NotLoggedInError(Exception):
@@ -194,6 +195,30 @@ class NYobikou:
         response = self.client.put(f'https://api.nnn.ed.nico/v1/notices/{notice_id}/mark')
         response.raise_for_status()
 
+    def get_material_courses(self, mode: str = 'batch', ids: list[int] = []):
+        """教材のコースを取得する
+
+        Args:
+            mode (str): モード
+            ids (list[int]): IDのリスト
+
+        Raises:
+            NotLoggedInError: ログインしていません
+
+        Returns:
+            List[Course]: コースのリスト
+        """
+        if not self._zane_session:
+            raise NotLoggedInError('not logged in')
+        params = {
+            'mode': mode,
+            'ids[]': ids,
+        }
+        response = self.client.get('https://api.nnn.ed.nico/v2/material/courses', params=params)
+        response.raise_for_status()
+        courses = [MaterialCourse.model_validate(course) for course in response.json()['courses']]
+        return courses
+
 if __name__ == '__main__':
     from dotenv import load_dotenv
     load_dotenv()
@@ -203,5 +228,7 @@ if __name__ == '__main__':
     # csrf_token = n_yobikou.create_csrf_token()
     # user = n_yobikou.get_user()
     # notices = n_yobikou.get_notices()
-    # notices = n_yobikou.get_notices(False)
-    # marked_as_read_notice = n_yobikou.mark_as_read_notice(1)
+    # notices = n_yobikou.get_notices(unread=False)
+    # marked_as_read_notice = n_yobikou.mark_as_read_notice(notice_id=1)
+    material_courses = n_yobikou.get_material_courses(ids=[1])
+    print(material_courses)
