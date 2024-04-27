@@ -5,6 +5,7 @@ from models import (
     CsrfToken,
     User,
     Notice,
+    Service,
     MaterialCourse,
     MaterialChapter,
     MaterialRecommendation,
@@ -183,6 +184,32 @@ class NYobikou:
         notices = [Notice.model_validate(notice) for notice in response.json()['notices']]
         return notices
 
+    def get_my_courses(self, service: str = 'n_school', limit: int = 20, offset: int = 0):
+        """自分のコースを取得する
+
+        Args:
+            service (str): サービス
+            limit (int): 取得する数
+            offset (int): オフセット
+
+        Raises:
+            NotLoggedInError: ログインしていません
+
+        Returns:
+            List[Service]: サービスのリスト
+        """
+        if not self._zane_session:
+            raise NotLoggedInError('not logged in')
+        params = {
+            'service': service,
+            'limit': limit,
+            'offset': offset,
+        }
+        response = self.client.get('https://api.nnn.ed.nico/v2/my_courses', params=params)
+        response.raise_for_status()
+        services = [Service.model_validate(service) for service in response.json()['services']]
+        return services
+
     def mark_as_read_notice(self, notice_id: int):
         """通知を既読にする
 
@@ -315,5 +342,6 @@ if __name__ == '__main__':
     # material_chapters = n_yobikou.get_material_chapters(queries={1: 1})
     # material_recommendations = n_yobikou.get_meterial_recommendations()
     # material_course = n_yobikou.get_material_course(1)
-    material_chapter = n_yobikou.get_material_chapter(1, 1)
-    print(material_chapter)
+    # material_chapter = n_yobikou.get_material_chapter(1, 1)
+    services = n_yobikou.get_my_courses()
+    print(services)

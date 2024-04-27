@@ -171,3 +171,19 @@ class Course(BaseModel):
 class MaterialRecommendation(BaseModel):
     header: str
     courses: List[Course]
+
+
+class Course(BaseModel):
+    id: int
+    type: str
+    title: str
+    selected: bool
+    progress: Progress
+    thumbnail_url: str
+    outline: str
+
+
+class Service(BaseModel):
+    name: str
+    course_total: int
+    courses: List[Course]
