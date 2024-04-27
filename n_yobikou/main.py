@@ -7,6 +7,7 @@ from models import (
     Notice,
     MaterialCourse,
     MaterialChapter,
+    MaterialRecommendation,
 )
 
 class NotLoggedInError(Exception):
@@ -207,7 +208,7 @@ class NYobikou:
             NotLoggedInError: ログインしていません
 
         Returns:
-            List[Course]: コースのリスト
+            List[MaterialCourse]: コースのリスト
         """
         if not self._zane_session:
             raise NotLoggedInError('not logged in')
@@ -230,7 +231,7 @@ class NYobikou:
             NotLoggedInError: ログインしていません
 
         Returns:
-            List[Chapter]: 章のリスト
+            List[MaterialChapter]: 章のリスト
         """
         if not self._zane_session:
             raise NotLoggedInError('not logged in')
@@ -242,6 +243,22 @@ class NYobikou:
         response.raise_for_status()
         chapters = [MaterialChapter.model_validate(chapter) for chapter in response.json()['chapters']]
         return chapters
+
+    def get_meterial_recommendations(self):
+        """教材のおすすめを取得する
+
+        Raises:
+            NotLoggedInError: ログインしていません
+
+        Returns:
+            List[MaterialRecommendation]: おすすめのリスト
+        """
+        if not self._zane_session:
+            raise NotLoggedInError('not logged in')
+        response = self.client.get('https://api.nnn.ed.nico/v2/material/recommendations')
+        response.raise_for_status()
+        recommendations = [MaterialRecommendation.model_validate(course) for course in response.json()['recommendations']]
+        return recommendations
 
 
 if __name__ == '__main__':
@@ -256,5 +273,6 @@ if __name__ == '__main__':
     # notices = n_yobikou.get_notices(unread=False)
     # marked_as_read_notice = n_yobikou.mark_as_read_notice(notice_id=1)
     # material_courses = n_yobikou.get_material_courses(ids=[1])
-    material_chapters = n_yobikou.get_material_chapters(queries={1895: 24073})
-    print(material_chapters)
+    # material_chapters = n_yobikou.get_material_chapters(queries={1: 1})
+    material_recommendations = n_yobikou.get_meterial_recommendations()
+    print(material_recommendations)

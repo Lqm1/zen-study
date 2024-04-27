@@ -108,3 +108,66 @@ class MaterialChapter(BaseModel):
     progress: Progress2
     sections: List[Section]
     course_type: str
+
+
+class SectionUse(BaseModel):
+    active: bool
+    reason: str
+    meta: Dict[str, Any]
+
+
+class PackageSelect(BaseModel):
+    active: bool
+    reason: str
+    meta: Dict[str, Any]
+
+
+class Permissions(BaseModel):
+    section_use: SectionUse
+    package_select: PackageSelect
+
+
+class Comprehension(BaseModel):
+    limit: int
+    bad: int
+    good: int
+    perfect: int
+
+
+class Checkpoint(BaseModel):
+    total: int
+    clear: int
+
+
+class Progress3(BaseModel):
+    on_calculation: bool
+    comprehension: Comprehension
+    checkpoint: Checkpoint
+
+
+class ShortTest(BaseModel):
+    total_short_test: int
+    total_passed_short_test: int
+
+
+class Course(BaseModel):
+    id: int
+    type: str
+    title: str
+    outline: str
+    released_at: int
+    permission_label: str
+    permission_url: str
+    permission_text: str
+    permissions: Permissions
+    selected: bool
+    progress: Progress3
+    short_test: ShortTest
+    thumbnail_url: str
+    subject_category: SubjectCategory
+    chapters: List
+
+
+class MaterialRecommendation(BaseModel):
+    header: str
+    courses: List[Course]
