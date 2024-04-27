@@ -107,7 +107,7 @@ class MaterialChapter(BaseModel):
     open_section_index: int
     progress: Progress2
     sections: List[Section]
-    course_type: str
+    course_type: Optional[str] = None
 
 
 class SectionUse(BaseModel):

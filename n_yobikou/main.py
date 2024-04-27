@@ -263,6 +263,26 @@ class NYobikou:
         chapters = [MaterialChapter.model_validate(chapter) for chapter in response.json()['chapters']]
         return chapters
 
+    def get_material_chapter(self, course_id: int, chapter_id: int):
+        """教材の章を取得する
+
+        Args:
+            course_id (int): コースID
+            chapter_id (int): 章ID
+
+        Raises:
+            NotLoggedInError: ログインしていません
+
+        Returns:
+            MaterialChapter: 章
+        """
+        if not self._zane_session:
+            raise NotLoggedInError('not logged in')
+        response = self.client.get(f'https://api.nnn.ed.nico/v2/material/courses/{course_id}/chapters/{chapter_id}')
+        response.raise_for_status()
+        chapter = MaterialChapter.model_validate(response.json()['chapter'])
+        return chapter
+
     def get_meterial_recommendations(self):
         """教材のおすすめを取得する
 
@@ -294,5 +314,6 @@ if __name__ == '__main__':
     # material_courses = n_yobikou.get_material_courses(ids=[1])
     # material_chapters = n_yobikou.get_material_chapters(queries={1: 1})
     # material_recommendations = n_yobikou.get_meterial_recommendations()
-    material_course = n_yobikou.get_material_course(1)
-    print(material_course)
+    # material_course = n_yobikou.get_material_course(1)
+    material_chapter = n_yobikou.get_material_chapter(1, 1)
+    print(material_chapter)
