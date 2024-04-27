@@ -150,40 +150,36 @@ class ShortTest(BaseModel):
     total_passed_short_test: int
 
 
-class Course(BaseModel):
-    id: int
-    type: str
-    title: str
-    outline: str
-    released_at: int
-    permission_label: str
-    permission_url: str
-    permission_text: str
-    permissions: Permissions
-    selected: bool
-    progress: Progress3
-    short_test: ShortTest
-    thumbnail_url: str
-    subject_category: SubjectCategory
-    chapters: List
-
-
 class MaterialRecommendation(BaseModel):
     header: str
+    class Course(BaseModel):
+        id: int
+        type: str
+        title: str
+        outline: str
+        released_at: int
+        permission_label: str
+        permission_url: str
+        permission_text: str
+        permissions: Permissions
+        selected: bool
+        progress: Progress3
+        short_test: ShortTest
+        thumbnail_url: str
+        subject_category: SubjectCategory
+        chapters: List
     courses: List[Course]
-
-
-class Course(BaseModel):
-    id: int
-    type: str
-    title: str
-    selected: bool
-    progress: Progress
-    thumbnail_url: str
-    outline: str
 
 
 class Service(BaseModel):
     name: str
     course_total: int
+    class Course(BaseModel):
+        id: int
+        type: str
+        title: str
+        selected: bool
+        progress: Progress
+        thumbnail_url: str
+        outline: str
     courses: List[Course]
