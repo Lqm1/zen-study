@@ -56,16 +56,6 @@ class Section(BaseModel):
     done: Optional[bool] = None
 
 
-class MaterialChapter(BaseModel):
-    id: int
-    title: str
-    outline: str
-    thumbnail_url: Optional[str] = None
-    open_section_index: int
-    progress: Progress2
-    sections: List[Section]
-    course_type: Optional[str] = None
-
 
 class Progress3(BaseModel):
     on_calculation: bool
@@ -143,27 +133,13 @@ class PackageSelect(BaseModel):
 
 class Permissions(BaseModel):
     section_use: SectionUse
-    package_select: PackageSelect
+    package_select: Optional[PackageSelect] = None
 
-
-class SectionUse1(BaseModel):
-    active: bool
-    reason: str
-    meta: Dict[str, Any]
-
-
-class Permissions1(BaseModel):
-    section_use: SectionUse1
-
-
-class Checkpoint1(BaseModel):
-    clear: int
-    total: int
 
 
 class Progress1(BaseModel):
     on_calculation: bool
-    checkpoint: Optional[Checkpoint1] = None
+    checkpoint: Optional[Checkpoint] = None
     comprehension: Optional[Comprehension] = None
     total_count: Optional[int] = None
     passed_count: Optional[int] = None
@@ -175,7 +151,7 @@ class Chapter(BaseModel):
     title: str
     resource_type: str
     outline: str
-    permissions: Optional[Permissions1] = None
+    permissions: Optional[Permissions] = None
     progress: Progress1
     released_at: Optional[int] = None
     thumbnail_url: Any
@@ -201,3 +177,143 @@ class MaterialCourse(BaseModel):
     subject_category: SubjectCategory
     permissions: Optional[Permissions] = None
     chapters: List[Chapter]
+
+
+
+class Progress4(BaseModel):
+    comprehension: Optional[Comprehension] = None
+    checkpoint: Optional[Checkpoint] = None
+    total_count: Optional[int] = None
+    passed_count: Optional[int] = None
+    status: Optional[str] = None
+
+
+class SectionUse1(BaseModel):
+    active: bool
+    reason: str
+    meta: Dict[str, Any]
+
+
+class PostComment(BaseModel):
+    active: bool
+    reason: str
+    meta: Dict[str, Any]
+
+
+class PostAskComment(BaseModel):
+    active: bool
+    reason: str
+    meta: Dict[str, Any]
+
+
+class JoinResearch(BaseModel):
+    active: bool
+    reason: str
+    meta: Dict[str, Any]
+
+
+class JoinQuiz(BaseModel):
+    active: bool
+    reason: str
+    meta: Dict[str, Any]
+
+
+class JoinCorrection(BaseModel):
+    active: bool
+    reason: str
+    meta: Dict[str, Any]
+
+
+class LessonUse(BaseModel):
+    active: bool
+    reason: str
+    meta: Dict[str, Any]
+
+
+class Permissions1(BaseModel):
+    section_use: Optional[SectionUse1] = None
+    post_comment: Optional[PostComment] = None
+    post_ask_comment: Optional[PostAskComment] = None
+    join_research: Optional[JoinResearch] = None
+    join_quiz: Optional[JoinQuiz] = None
+    join_correction: Optional[JoinCorrection] = None
+    lesson_use: Optional[LessonUse] = None
+
+
+class Comprehension1(BaseModel):
+    limit: int
+    bad: int
+    good: int
+    perfect: int
+
+
+class Checkpoint1(BaseModel):
+    total: int
+    clear: int
+
+
+class Progress5(BaseModel):
+    comprehension: Comprehension1
+    checkpoint: Checkpoint1
+
+
+class Archive(BaseModel):
+    total_audience: int
+    second: int
+    start_offset: int
+    show_comment: bool
+
+
+class Section1(BaseModel):
+    id: int
+    title: str
+    outline: str
+    resource_type: str
+    content_url: Optional[str] = None
+    permissions: Permissions1
+    released_at: int
+    progress: Optional[Progress5] = None
+    thumbnail_url: Optional[str]
+    playback_position: Optional[int] = None
+    minute: Optional[int] = None
+    length: Optional[int] = None
+    tags: Optional[List[str]] = None
+    archive: Optional[Archive] = None
+    teacher_name: Optional[str] = None
+    start_at: Optional[int] = None
+    broadcast_status: Optional[str] = None
+    broadcast_opening_minute: Optional[int] = None
+    broadcast_ending_minute: Optional[int] = None
+    thumbnail_wide_url: Optional[str] = None
+    permission_label: Optional[str] = None
+    permission_url: Optional[str] = None
+    permission_text: Optional[str] = None
+    status_label: Optional[str] = None
+    viewer_count: Optional[int] = None
+    planned_start_at: Optional[int] = None
+
+
+class ClassHeader(BaseModel):
+    name: str
+    label: str
+    has_progress: bool
+    writing_mode: Optional[str] = None
+    sections: List[Section1]
+
+
+
+class MaterialChapter(BaseModel):
+    id: int
+    title: str
+    outline: str
+    permissions: Optional[Permissions] = None
+    progress: Progress4
+    released_at: Optional[int] = None
+    class_pattern_name: Optional[str] = None
+    thumbnail_url: Any
+    class_headers: Optional[List[ClassHeader]] = None
+    permission_label: Optional[str] = None
+    permission_url: Optional[str] = None
+    permission_text: Optional[str] = None
+    open_section_index: Optional[int] = None
+    sections: Optional[List[Section]] = None
