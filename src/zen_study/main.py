@@ -205,7 +205,7 @@ class ZEN_Study:
         return notices
 
     def get_my_courses(
-        self, service: str = "n_school", limit: int = 20, offset: int = 0
+        self, service: str = "basic", limit: int = 20, offset: int = 0
     ):
         """自分のコースを取得する
 
@@ -392,5 +392,5 @@ if __name__ == "__main__":
     # material_recommendations = n_yobikou.get_meterial_recommendations()
     # material_course = n_yobikou.get_material_course(1)
     # material_chapter = n_yobikou.get_material_chapter(1, 1)
-    services = zen_study.get_my_courses()
+    services = zen_study.get_my_courses(service="advanced")
     print(services)

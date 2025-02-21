@@ -182,7 +182,7 @@ class Service(BaseModel):
         type: str
         title: str
         selected: bool
-        progress: Progress
+        progress: Progress | Progress3
         thumbnail_url: str
         outline: str
 
