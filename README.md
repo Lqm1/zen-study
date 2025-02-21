@@ -1,29 +1,29 @@
-# NYobikou
+# zen-study
 N予備校のデータを効率良く型安全にプログラムから取得するモジュール
 
 ## インストール方法
 ```bash
-pip install n_yobikou@git+https://github.com/c7e715d1b04b17683718fb1e8944cc28/NYobikou.git
+pip install zen_study@git+https://github.com/Lqm1/zen-study.git
 ```
 
 ## 使い方
 ```python
-from n_yobikou import NYobikou
+from zen_study import zen_study
 
-n_yobikou = NYobikou()
+zen_study = zen_study()
 
-user = n_yobikou.login_by_s_high_school(input('学籍番号: '), input('パスード: '))
-csrf_token = n_yobikou.create_csrf_token()
-user = n_yobikou.get_user()
-notices = n_yobikou.get_notices()
-notices = n_yobikou.get_notices(unread=False)
-marked_as_read_notice = n_yobikou.mark_as_read_notice(notice_id=1)
-material_courses = n_yobikou.get_material_courses(ids=[1])
-material_chapters = n_yobikou.get_material_chapters(queries={1: 1})
-material_recommendations = n_yobikou.get_meterial_recommendations()
-material_course = n_yobikou.get_material_course(1)
-material_chapter = n_yobikou.get_material_chapter(1, 1)
-services = n_yobikou.get_my_courses()
+user = zen_study.login_by_s_high_school(input('学籍番号: '), input('パスード: '))
+csrf_token = zen_study.create_csrf_token()
+user = zen_study.get_user()
+notices = zen_study.get_notices()
+notices = zen_study.get_notices(unread=False)
+marked_as_read_notice = zen_study.mark_as_read_notice(notice_id=1)
+material_courses = zen_study.get_material_courses(ids=[1])
+material_chapters = zen_study.get_material_chapters(queries={1: 1})
+material_recommendations = zen_study.get_meterial_recommendations()
+material_course = zen_study.get_material_course(1)
+material_chapter = zen_study.get_material_chapter(1, 1)
+services = zen_study.get_my_courses()
 ```
 
 ## 貢献方法

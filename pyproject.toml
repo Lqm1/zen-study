@@ -1,0 +1,14 @@
+[project]
+name = "zen-study"
+version = "0.1.0"
+description = "ZEN Studyのモジュール"
+readme = "README.md"
+authors = [
+    { name = "Lami", email = "info@lami.zip" }
+]
+requires-python = ">=3.11"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
