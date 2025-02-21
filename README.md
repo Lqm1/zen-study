@@ -8,9 +8,9 @@ pip install zen_study@git+https://github.com/Lqm1/zen-study.git
 
 ## 使い方
 ```python
-from zen_study import zen_study
+from zen_study import ZEN_Study
 
-zen_study = zen_study()
+zen_study = ZEN_Study()
 
 user = zen_study.login_by_s_high_school(input('学籍番号: '), input('パスード: '))
 csrf_token = zen_study.create_csrf_token()
