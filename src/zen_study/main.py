@@ -378,12 +378,17 @@ class ZEN_Study:
     def set_guide_progress(self, section_id: int, level: str = "good"):
         if not self._zane_session:
             raise NotLoggedInError("not logged in")
+        csrf_token = self.create_csrf_token()
+        headers = {
+            "csrf-token": csrf_token.token,
+        }
         json_data = {
             "level": level,
         }
         response = self.client.put(
             f"https://api.nnn.ed.nico/v1/material/guides/{section_id}/progress",
             json=json_data,
+            headers=headers,
         )
         response.raise_for_status()
         return None
@@ -391,12 +396,17 @@ class ZEN_Study:
     def set_movie_progress(self, section_id: int, level: str = "good"):
         if not self._zane_session:
             raise NotLoggedInError("not logged in")
+        csrf_token = self.create_csrf_token()
+        headers = {
+            "csrf-token": csrf_token.token,
+        }
         json_data = {
             "level": level,
         }
         response = self.client.put(
             f"https://api.nnn.ed.nico/v1/material/movies/{section_id}/progress",
             json=json_data,
+            headers=headers,
         )
         response.raise_for_status()
         return None
