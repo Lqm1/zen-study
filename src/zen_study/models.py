@@ -161,17 +161,10 @@ class Checkpoint1(BaseModel):
     total: int
 
 
-class Comprehension1(BaseModel):
-    bad: int
-    good: int
-    limit: int
-    perfect: int
-
-
 class Progress1(BaseModel):
     on_calculation: bool
     checkpoint: Optional[Checkpoint1] = None
-    comprehension: Optional[Comprehension1] = None
+    comprehension: Optional[Comprehension] = None
     total_count: Optional[int] = None
     passed_count: Optional[int] = None
     status: Optional[str] = None
