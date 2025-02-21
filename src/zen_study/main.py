@@ -375,6 +375,19 @@ class ZEN_Study:
         ]
         return recommendations
 
+    def set_guide_progress(self, level: str = "good"):
+        if not self._zane_session:
+            raise NotLoggedInError("not logged in")
+        json_data = {
+            "level": level,
+        }
+        response = self.client.put(
+            "https://api.nnn.ed.nico/v1/material/guides/7432/progress",
+            json=json_data,
+        )
+        response.raise_for_status()
+        return None
+
 
 if __name__ == "__main__":
     from dotenv import load_dotenv
