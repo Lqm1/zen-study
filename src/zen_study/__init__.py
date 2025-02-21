@@ -3,10 +3,12 @@ from zen_study.models import (
     CsrfToken,
     User,
     Notice,
-    Service,
     MaterialCourse,
     MaterialChapter,
     MaterialRecommendation,
+)
+from zen_study.v3_models import (
+    Service,
 )
 
 __all__ = [
@@ -14,8 +16,8 @@ __all__ = [
     "CsrfToken",
     "User",
     "Notice",
-    "Service",
     "MaterialCourse",
     "MaterialChapter",
     "MaterialRecommendation",
+    "Service",
 ]

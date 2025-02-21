@@ -5,10 +5,13 @@ from zen_study.models import (
     CsrfToken,
     User,
     Notice,
-    Service,
     MaterialCourse,
     MaterialChapter,
     MaterialRecommendation,
+)
+
+from zen_study.v3_models import (
+    Service,
 )
 
 
@@ -204,9 +207,7 @@ class ZEN_Study:
         ]
         return notices
 
-    def get_my_courses(
-        self, service: str = "basic", limit: int = 20, offset: int = 0
-    ):
+    def get_my_courses(self, service: str = "basic", limit: int = 20, offset: int = 0):
         """自分のコースを取得する
 
         Args:
@@ -228,7 +229,7 @@ class ZEN_Study:
             "offset": offset,
         }
         response = self.client.get(
-            "https://api.nnn.ed.nico/v2/my_courses", params=params
+            "https://api.nnn.ed.nico/v3/dashboard/my_courses", params=params
         )
         response.raise_for_status()
         services = [
