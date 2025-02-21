@@ -388,6 +388,19 @@ class ZEN_Study:
         response.raise_for_status()
         return None
 
+    def set_movie_progress(self, section_id: int, level: str = "good"):
+        if not self._zane_session:
+            raise NotLoggedInError("not logged in")
+        json_data = {
+            "level": level,
+        }
+        response = self.client.put(
+            f"https://api.nnn.ed.nico/v1/material/movies/{section_id}/progress",
+            json=json_data,
+        )
+        response.raise_for_status()
+        return None
+
 
 if __name__ == "__main__":
     from dotenv import load_dotenv
