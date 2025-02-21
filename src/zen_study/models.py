@@ -56,7 +56,6 @@ class Section(BaseModel):
     done: Optional[bool] = None
 
 
-
 class Progress3(BaseModel):
     on_calculation: bool
     comprehension: Comprehension
@@ -136,7 +135,6 @@ class Permissions(BaseModel):
     package_select: Optional[PackageSelect] = None
 
 
-
 class Progress1(BaseModel):
     on_calculation: bool
     checkpoint: Optional[Checkpoint] = None
@@ -177,7 +175,6 @@ class MaterialCourse(BaseModel):
     subject_category: SubjectCategory
     permissions: Optional[Permissions] = None
     chapters: List[Chapter]
-
 
 
 class Progress4(BaseModel):
@@ -301,7 +298,6 @@ class ClassHeader(BaseModel):
     sections: List[Section1]
 
 
-
 class MaterialChapter(BaseModel):
     id: int
     title: str
@@ -317,3 +313,8 @@ class MaterialChapter(BaseModel):
     permission_text: Optional[str] = None
     open_section_index: Optional[int] = None
     sections: Optional[List[Section]] = None
+
+
+class Answer(BaseModel):
+    position: int
+    content: list[int]

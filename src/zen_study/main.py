@@ -8,6 +8,7 @@ from zen_study.models import (
     MaterialCourse,
     MaterialChapter,
     MaterialRecommendation,
+    Answer,
 )
 
 from zen_study.v3_models import (
@@ -405,6 +406,40 @@ class ZEN_Study:
         }
         response = self.client.put(
             f"https://api.nnn.ed.nico/v1/material/movies/{section_id}/progress",
+            json=json_data,
+            headers=headers,
+        )
+        response.raise_for_status()
+        return None
+
+    def set_exercise_progress(self, section_id: int, level: str = "good"):
+        if not self._zane_session:
+            raise NotLoggedInError("not logged in")
+        csrf_token = self.create_csrf_token()
+        headers = {
+            "csrf-token": csrf_token.token,
+        }
+        json_data = {
+            "level": level,
+        }
+        response = self.client.put(
+            f"https://api.nnn.ed.nico/v1/material/exercises/{section_id}/progress",
+            json=json_data,
+            headers=headers,
+        )
+        response.raise_for_status()
+        return None
+
+    def answer_exercise(self, section_id: int, answers: list[Answer]):
+        if not self._zane_session:
+            raise NotLoggedInError("not logged in")
+        csrf_token = self.create_csrf_token()
+        headers = {
+            "csrf-token": csrf_token.token,
+        }
+        json_data = {"answers": [answer.model_dump() for answer in answers]}
+        response = self.client.post(
+            f"https://api.nnn.ed.nico/v1/material/exercises/{section_id}/answers",
             json=json_data,
             headers=headers,
         )

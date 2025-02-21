@@ -6,6 +6,7 @@ from zen_study.models import (
     MaterialCourse,
     MaterialChapter,
     MaterialRecommendation,
+    Answer,
 )
 from zen_study.v3_models import (
     Course,
@@ -19,5 +20,6 @@ __all__ = [
     "MaterialCourse",
     "MaterialChapter",
     "MaterialRecommendation",
+    "Answer",
     "Course",
 ]
