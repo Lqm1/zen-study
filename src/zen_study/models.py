@@ -152,6 +152,7 @@ class ShortTest(BaseModel):
 
 class MaterialRecommendation(BaseModel):
     header: str
+
     class Course(BaseModel):
         id: int
         type: str
@@ -168,12 +169,14 @@ class MaterialRecommendation(BaseModel):
         thumbnail_url: str
         subject_category: SubjectCategory
         chapters: List
+
     courses: List[Course]
 
 
 class Service(BaseModel):
     name: str
     course_total: int
+
     class Course(BaseModel):
         id: int
         type: str
@@ -182,4 +185,5 @@ class Service(BaseModel):
         progress: Progress
         thumbnail_url: str
         outline: str
+
     courses: List[Course]
