@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -26,10 +26,3 @@ class Course(BaseModel):
     on_calculation: bool
     progress: Progress
     comprehension: Optional[ComprehensionItem]
-
-
-class Service(BaseModel):
-    total_course_count: int
-    courses: List[Course]
-    name: str
-    periodic_exam_title: Optional[str]

@@ -11,7 +11,7 @@ from zen_study.models import (
 )
 
 from zen_study.v3_models import (
-    Service,
+    Course,
 )
 
 
@@ -233,7 +233,8 @@ class ZEN_Study:
         )
         response.raise_for_status()
         services = [
-            Service.model_validate(service) for service in response.json()["services"]
+            Course.model_validate(course)
+            for course in response.json()["services"][0]["courses"]
         ]
         return services
 

@@ -8,7 +8,7 @@ from zen_study.models import (
     MaterialRecommendation,
 )
 from zen_study.v3_models import (
-    Service,
+    Course,
 )
 
 __all__ = [
@@ -19,5 +19,5 @@ __all__ = [
     "MaterialCourse",
     "MaterialChapter",
     "MaterialRecommendation",
-    "Service",
+    "Course",
 ]
